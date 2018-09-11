@@ -1,3 +1,8 @@
+/* Global */
+const ROWS = 15
+const COLUMNS = 15
+const MINES = 40
+
 /* Main */
 let board;
 
@@ -38,14 +43,14 @@ function transition(board, action) {
   }
 }
 
-function intialBoard(rows=15, cols=15, mines=30){
+function intialBoard(rows=ROWS, columns=COLUMNS, mines=MINES){
   const cell = (i, j) => ({
     mine : false,
     show : false,
     index: [i, j],
     hint : 0
   })
-  return calculateHints(assignMines(make2dArrayOf(rows, cols, cell), mines))
+  return calculateHints(assignMines(make2dArrayOf(rows, columns, cell), mines))
 }
 
 /*  "click" functions */
@@ -103,8 +108,7 @@ function renderBoard(props, board) {
 }
 
 function renderCell({cellWidth, cellHeight}, cell) {
-  const
-    [x, y] = cell.index.map(i => i*cellWidth,)
+  const [x, y] = cell.index.map(i => i*cellWidth)
   return(
     `<rect
       id = ${cell.index}
@@ -112,7 +116,7 @@ function renderCell({cellWidth, cellHeight}, cell) {
       height=${cellHeight}
       x=${x}
       y=${y}
-      fill=${cell.show? cell.mine ? "red" : "white" : "#c9c9c9"}
+      fill=${cell.show ? cell.mine ? "red" : "white" : "#c9c9c9"}
       stroke="black">
     </rect>
     <text
@@ -122,13 +126,27 @@ function renderCell({cellWidth, cellHeight}, cell) {
       alignment-baseline="middle"
       font-size="1.5em"
       font-weight="bolder"
-      fill="black">
+      stroke-width=0px
+      fill=${numberToColor(cell.hint)}>
       ${cell.show && cell.hint != 0 && !cell.mine ? cell.hint : " "}
      </text>`
    )
 }
 
 /* Helper functions */
+function numberToColor(number) {
+  return {
+    1: "blue",
+    2: "green",
+    3: "red",
+    4: "pink",
+    5: "orange",
+    6: "purple",
+    7: "brown",
+    8: "black"
+  }[number]
+}
+
 function neighborhood(board, [i, j]) {
   return [[i-1,j+1],[i,j+1],[i+1,j+1],
           [i-1,j]  ,        [i+1,j]  ,
