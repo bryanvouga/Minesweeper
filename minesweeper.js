@@ -15,7 +15,7 @@ function output(board) {
   document.getElementById("root").innerHTML = render(board)
 }
 
-input({type: 'intialize'})
+input({type: 'initialize'})
 
 /* Inputs */
 document.body.addEventListener("click",
@@ -28,14 +28,14 @@ document.body.addEventListener("click",
 
 document.getElementById("reset").addEventListener("click",
   function(evt) {
-    input({type:"intialize"})
+    input({type:"initialize"})
   })
 
 /* Transition functions */
 function transition(board, action) {
   switch (action.type) {
-    case 'intialize':
-      return intialBoard()
+    case 'initialize':
+      return initialBoard()
     case 'click':
       return click(board, action.value)
     default:
@@ -43,7 +43,7 @@ function transition(board, action) {
   }
 }
 
-function intialBoard(rows=ROWS, columns=COLUMNS, mines=MINES){
+function initialBoard(rows=ROWS, columns=COLUMNS, mines=MINES){
   const cell = (i, j) => ({
     mine : false,
     show : false,
